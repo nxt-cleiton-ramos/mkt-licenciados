@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#000000">
 <meta name="description" content="Apresentação ao vivo: como ser Licenciado NEXT e transformar o futebol na sua fonte de renda. Quinta-feira, 19h.">
 <title>Apresentação ao vivo · Seja Licenciado NEXT</title>
+<script>try{if(localStorage.getItem('next-lic-theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -285,6 +286,35 @@ footer p{font-size:14px;color:#777;line-height:1.6}
 .formsec form .btn:hover{background:var(--orange-bright)}
 .formsec .formnote{color:var(--faint)}
 .formsec .thanks{border-color:var(--line);border-top-color:var(--orange)}
+
+/* ── THEME TOGGLE + LIGHT MODE ── */
+.topbar-right{display:flex;align-items:center;gap:12px}
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;background:transparent;border:2px solid var(--line);color:var(--chalk);cursor:pointer;flex:0 0 auto;transition:border-color .14s,color .14s}
+.theme-toggle:hover{border-color:var(--orange);color:var(--orange)}
+.theme-toggle svg{width:20px;height:20px;display:block}
+.theme-toggle .i-moon{display:none}
+html[data-theme="light"] .theme-toggle .i-sun{display:none}
+html[data-theme="light"] .theme-toggle .i-moon{display:block}
+
+html[data-theme="light"]{
+  color-scheme:light;
+  --black:#f7f4ef;--ink:#efeae3;--panel:#eae4dc;--line:#e1dad0;
+  --chalk:#17140f;--muted:#574f47;--faint:#8a8178;
+}
+html[data-theme="light"] .logo{filter:brightness(0)}
+html[data-theme="light"] .hero .bg{filter:grayscale(100%) contrast(1.04) brightness(1.06)}
+html[data-theme="light"] .hero .tint{opacity:.1}
+html[data-theme="light"] .hero .dark{background:linear-gradient(100deg,rgba(247,244,239,.95) 0%,rgba(247,244,239,.8) 46%,rgba(247,244,239,.42) 100%)}
+html[data-theme="light"] .hero .sub{color:#332d27}
+html[data-theme="light"] .band .tint{opacity:.1}
+html[data-theme="light"] .team li{color:#2c2620}
+html[data-theme="light"] .team.out .head .badge{background:#e3ddd4;color:#8a8178}
+html[data-theme="light"] .note p{color:#332d27}
+html[data-theme="light"] footer p{color:#6f675f}
+html[data-theme="light"] .formsec input{background:#fff;border-color:var(--line);color:var(--chalk)}
+html[data-theme="light"] .formsec input::placeholder{color:var(--faint)}
+html[data-theme="light"] .formsec .thanks{background:#fff;color:var(--chalk);border-color:var(--line)}
+html[data-theme="light"] .formsec .thanks p{color:var(--muted)}
 </style>
 </head>
 <body>
@@ -293,7 +323,13 @@ footer p{font-size:14px;color:#777;line-height:1.6}
 <!-- TOPBAR -->
 <header class="topbar"><div class="wrap">
   <img class="logo" src="assets/logo-next.png" alt="NEXT Academy" width="110" height="40">
-  <div class="fixture-chip"><span class="d" aria-hidden="true"></span>Apresentação ao vivo<span class="long">&nbsp;· Quinta-feira 19h</span></div>
+  <div class="topbar-right">
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Alternar tema claro ou escuro">
+      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="currentColor" stroke="none"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.4 1.4M17.6 17.6L19 19M19 5l-1.4 1.4M6.4 17.6L5 19"></path></svg>
+      <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="currentColor"></path></svg>
+    </button>
+    <div class="fixture-chip"><span class="d" aria-hidden="true"></span>Apresentação ao vivo<span class="long">&nbsp;· Quinta-feira 19h</span></div>
+  </div>
 </div></header>
 
 <main id="conteudo">
@@ -539,6 +575,9 @@ footer p{font-size:14px;color:#777;line-height:1.6}
     }, 700);
   });
 })();
+</script>
+<script>
+(function(){var K='next-lic-theme',r=document.documentElement,b=document.getElementById('theme-toggle');if(b)b.addEventListener('click',function(){var n=r.getAttribute('data-theme')==='light'?'dark':'light';if(n==='light')r.setAttribute('data-theme','light');else r.removeAttribute('data-theme');try{localStorage.setItem(K,n);}catch(e){}});})();
 </script>
 </body>
 </html>
