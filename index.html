@@ -261,6 +261,30 @@ footer p{font-size:14px;color:#777;line-height:1.6}
 .sticky .txt .d{background:var(--orange)}
 .sticky .btn{background:var(--orange);color:#000}
 .sticky .btn:hover{background:var(--orange-bright)}
+
+/* ── EYEBROWS maiores ── */
+.eyebrow{font-size:17px;letter-spacing:2px}
+
+/* ── PLACAR: dia "QUINTA-FEIRA" cabe no scoreboard ── */
+.kickoff .ko-day{font-size:clamp(20px,2.4vw,26px);letter-spacing:-.5px}
+
+/* ── FORM em tom neutro (laranja só no botão = foco) ── */
+.formsec{background:var(--black)}
+.formsec .eyebrow{color:var(--orange)}
+.formsec .eyebrow::before{background:var(--orange)}
+.formsec .h2{color:var(--chalk)}
+.formsec .h2 .u{color:var(--orange);text-decoration:none}
+.formsec .sub{color:var(--muted)}
+.formsec label{color:var(--chalk)}
+.formsec input{background:#0e0e0e;border:1px solid var(--line);color:var(--chalk)}
+.formsec input::placeholder{color:var(--faint)}
+.formsec input:focus-visible{border-color:var(--orange);box-shadow:0 0 0 2px rgba(242,90,4,.4) inset}
+.formsec .field.bad input{border-color:#ff6a4d;box-shadow:none}
+.formsec .err{color:#ff8a6a}
+.formsec form .btn{background:var(--orange);color:#000}
+.formsec form .btn:hover{background:var(--orange-bright)}
+.formsec .formnote{color:var(--faint)}
+.formsec .thanks{border-color:var(--line);border-top-color:var(--orange)}
 </style>
 </head>
 <body>
@@ -285,7 +309,7 @@ footer p{font-size:14px;color:#777;line-height:1.6}
     <h1 class="hero-anim d2">O futebol sempre esteve na sua vida. Quinta-feira, ele pode virar a sua <span class="o">renda.</span></h1>
     <p class="sub hero-anim d3">A NEXT traz as famílias que procuram futebol pros filhos. <b>Você atende pelo WhatsApp, fecha a matrícula e ganha comissão.</b> A demanda chega pronta: você não prospecta no frio nem monta estrutura.</p>
     <div class="kickoff hero-anim d4" role="group" aria-label="Quinta-feira, 19h, ao vivo">
-      <span><span class="ko-k">Dia</span><span class="ko-v">QUINTA</span></span>
+      <span><span class="ko-k">Dia</span><span class="ko-v ko-day">QUINTA-FEIRA</span></span>
       <span><span class="ko-k">Horário</span><span class="ko-v tnums">19<span class="u">H</span></span></span>
       <span class="live"><span class="ko-k">Transmissão</span><span class="ko-v"><span class="dot" aria-hidden="true"></span>AO&nbsp;VIVO</span></span>
     </div>
@@ -305,7 +329,7 @@ footer p{font-size:14px;color:#777;line-height:1.6}
   <div class="eyebrow reveal">O que é</div>
   <h2 class="h2 reveal">Um negócio seu, com a marca de quem já encaminhou <span class="o">+4.000 atletas.</span></h2>
   <p class="lead reveal">Ser Licenciado NEXT é um negócio seu, não um emprego com chefe e ponto pra bater. Você entra, é treinado e passa a representar a NEXT na sua região. <b>Quanto mais você fecha, mais comissão entra. Não tem teto.</b></p>
-  <p class="lead reveal">E tem pra onde crescer: de Licenciado a Coordenador de Captação, até Dono de Academia. <b>Gente que começou exatamente onde você vai começar já percorreu esse caminho inteiro.</b></p>
+  <p class="lead reveal">E tem pra onde crescer: de Licenciado a Coordenador de Captação, até <b>Dono da própria academia NEXT</b>. Gente que começou exatamente onde você vai começar já percorreu esse caminho inteiro.</p>
   <div class="fieldline reveal" aria-hidden="true"></div>
 </div></section>
 
@@ -315,7 +339,7 @@ footer p{font-size:14px;color:#777;line-height:1.6}
   <h2 class="h2 reveal">O cliente chega pronto. <span class="o">Você só fecha.</span></h2>
   <p class="lead reveal">Três passos, do lead à matrícula fechada.</p>
   <div class="play reveal">
-    <div class="move"><div class="num tnums">1</div><h3>A NEXT gera o cliente</h3><p>A NEXT roda a campanha de mídia. As famílias que procuram futebol e educação pros filhos chegam até você, pelo sistema. Você não liga pra desconhecido nem prospecta no frio.</p></div>
+    <div class="move"><div class="num tnums">1</div><h3>A NEXT gera o cliente</h3><p>A NEXT roda a campanha de mídia. As famílias que procuram futebol e educação pros filhos chegam até você, pelo sistema. Você não liga para desconhecido nem prospecta no frio.</p></div>
     <div class="move"><div class="num tnums">2</div><h3>Você atende</h3><p>Abre o app, fala pelo WhatsApp, tira as dúvidas. Ele já chega querendo. Metade do trabalho de vender já está feita.</p></div>
     <div class="move"><div class="num tnums">3</div><h3>Você fecha</h3><p>Conduz pra matrícula e ganha a comissão. Como o Uber do futebol: o cliente aparece, você aceita, você vai.</p></div>
   </div>
@@ -344,13 +368,14 @@ footer p{font-size:14px;color:#777;line-height:1.6}
   <p class="lead reveal"><b>[confirmar nome]</b>, de [confirmar cidade], lavava carro num posto antes de conhecer a NEXT. Começou atendendo os atletas que chegavam, foi fechando matrícula e, em [confirmar prazo], virou <b>sócio franqueado</b>. Hoje toca a própria operação no comercial da NEXT.</p>
   <p class="lead reveal"><b>[confirmar nome]</b> largou a faculdade e a carteira assinada pra apostar nisso. A família foi contra. Quando o resultado apareceu, todo mundo passou a apoiar. Hoje é <b>sócio franqueado em [confirmar cidade]</b>.</p>
   <p class="lead reveal">Os dois começaram exatamente onde você vai começar: atendendo pelo WhatsApp os atletas que a NEXT manda, conduzindo pra seletiva, fechando a matrícula.</p>
+  <div class="cta-center reveal"><a class="btn" href="#form">Quero meu lugar na apresentação <span class="arrow" aria-hidden="true">&#9654;</span></a></div>
 </div></section>
 
 <!-- BLOCO 7 · O QUE VAI ACONTECER NA APRESENTAÇÃO -->
 <section class="sec founder"><div class="wrap">
   <div class="eyebrow reveal">O que vai acontecer na apresentação</div>
   <h2 class="h2 reveal">Quinta-feira, 19h, o <span class="o">Yalli Oliveira</span> abre o modelo inteiro ao vivo.</h2>
-  <p class="reveal">Em uma hora, o fundador e presidente da NEXT mostra como o modelo de Licenciado NEXT funciona por dentro, o plano de carreira até Dono de Academia, e exatamente como entrar.</p>
+  <p class="reveal">Em uma hora, o fundador e presidente da NEXT mostra como o modelo de Licenciado NEXT funciona por dentro, o plano de carreira até virar dono da própria academia NEXT, e exatamente como entrar.</p>
   <p class="reveal">Aos 20 anos, Yalli foi pros Estados Unidos com bolsa de 100% pra estudar e jogar futebol. Voltou formado em Ciência da Computação e fundou a NEXT em 2013, do zero, ao lado dos sócios Lucas e Danilo. <b>Hoje a NEXT está em mais de 100 cidades</b> e faz parte da UNBK, o grupo que já transformou mais de 10 mil vidas pelo esporte e a educação. Não é teoria de quem nunca fez: é o sistema de quem construiu tudo.</p>
   <p class="reveal">Ele explica e responde ao vivo. Quem quiser entrar no negócio sai da apresentação sabendo o próximo passo.</p>
   <div class="note reveal">
