@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+<meta name="description" content="Apresentação ao vivo: como ser Licenciado NEXT e transformar o futebol na sua fonte de renda. Quinta, 19h.">
+<title>Apresentação ao vivo · Seja Licenciado NEXT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --black:#000;--ink:#0a0a0a;--panel:#121212;--line:#1c1c1c;
+  --chalk:#fff;--muted:#b3b3b3;--faint:#6e6e6e;
+  --orange:#F25A04;--orange-bright:#FF6A12;--orange-deep:#c4470a;
+  --field:rgba(242,90,4,.32);  /* pitch-line orange */
+  --disp:'Barlow Condensed',sans-serif;--body:'Barlow',sans-serif;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;border-radius:0}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--chalk);font-family:var(--body);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:rgba(242,90,4,.25)}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+h1,h2,h3{font-family:var(--disp);text-transform:uppercase;line-height:.96;letter-spacing:-.5px;text-wrap:balance}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+.o{color:var(--orange)}
+.tnums{font-variant-numeric:tabular-nums}
+
+/* skip link */
+.skip{position:absolute;left:-9999px;top:0;z-index:200;background:var(--orange);color:#000;font-family:var(--disp);font-weight:900;text-transform:uppercase;padding:12px 18px;letter-spacing:1px}
+.skip:focus{left:12px;top:12px}
+
+/* ── EYEBROW / fixture tab ── */
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:900;text-transform:uppercase;font-size:15px;letter-spacing:2.5px;color:var(--orange);margin-bottom:22px}
+.eyebrow::before{content:"";width:26px;height:3px;background:var(--orange);display:block}
+
+/* ── CTA BUTTON ── */
+.btn{display:inline-flex;align-items:center;gap:14px;background:var(--orange);color:#000;font-family:var(--disp);font-weight:900;text-transform:uppercase;font-size:24px;letter-spacing:1px;padding:20px 34px;border:none;cursor:pointer;transition:transform .14s ease,background .14s ease,box-shadow .14s ease;line-height:1;touch-action:manipulation;box-shadow:6px 6px 0 rgba(242,90,4,.18)}
+.btn:hover{transform:translate(-2px,-2px);background:var(--orange-bright);box-shadow:8px 8px 0 rgba(242,90,4,.28)}
+.btn:active{transform:translate(0,0);box-shadow:3px 3px 0 rgba(242,90,4,.2)}
+.btn .arrow{font-size:18px;transition:transform .14s ease}
+.btn:hover .arrow{transform:translateX(4px)}
+
+/* ── KICKOFF SCOREBOARD (signature) ── */
+.kickoff{display:inline-flex;align-items:stretch;background:var(--ink);border:2px solid var(--line);border-top:4px solid var(--orange)}
+.kickoff>span{display:flex;flex-direction:column;justify-content:center;padding:12px 20px;border-right:2px solid var(--line)}
+.kickoff>span:last-child{border-right:none}
+.kickoff .ko-k{font-family:var(--body);font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:2px;color:var(--faint);line-height:1.1}
+.kickoff .ko-v{font-family:var(--disp);font-weight:900;text-transform:uppercase;font-size:clamp(30px,4.4vw,42px);line-height:.85;color:var(--chalk);letter-spacing:0}
+.kickoff .ko-v .u{color:var(--orange);font-size:.6em}
+.kickoff .live{color:var(--orange)}
+.kickoff .live .ko-v{color:var(--orange);display:flex;align-items:center;gap:9px;font-size:clamp(22px,3vw,30px)}
+.dot{width:11px;height:11px;background:var(--orange);display:inline-block;box-shadow:0 0 0 0 rgba(242,90,4,.6);animation:pulse 1.8s ease-out infinite}
+@media(max-width:600px){
+  .kickoff{display:grid;grid-template-columns:1fr 1fr;width:100%}
+  .kickoff>span{border-right:2px solid var(--line);border-bottom:2px solid var(--line)}
+  .kickoff>span:nth-child(2n){border-right:none}
+  .kickoff>span:last-child{grid-column:1 / -1;border-right:none;border-bottom:none}
+}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(242,90,4,.55)}70%{box-shadow:0 0 0 12px rgba(242,90,4,0)}100%{box-shadow:0 0 0 0 rgba(242,90,4,0)}}
+
+/* ── STICKY BAR ── */
+.sticky{position:fixed;left:0;right:0;bottom:0;background:var(--orange);z-index:60;transform:translateY(120%);transition:transform .3s ease;padding-bottom:env(safe-area-inset-bottom)}
+.sticky.show{transform:translateY(0)}
+.sticky .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:14px;padding-bottom:14px}
+.sticky .txt{font-family:var(--disp);font-weight:900;text-transform:uppercase;color:#000;font-size:22px;line-height:1;display:flex;align-items:center;gap:10px}
+.sticky .txt .d{width:10px;height:10px;background:#000;display:inline-block}
+.sticky .btn{background:#000;color:var(--chalk);font-size:18px;padding:14px 22px;box-shadow:none}
+.sticky .btn:hover{background:#161616;box-shadow:none}
+@media(max-width:680px){.sticky .txt{font-size:15px}.sticky .txt .d{display:none}.sticky .btn{font-size:14px;padding:12px 16px}}
+
+/* ── TOPBAR ── */
+.topbar{position:relative;z-index:10;border-bottom:2px solid var(--line);background:var(--black)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:16px;padding-bottom:16px}
+.logo{height:40px;width:auto;display:block}
+.fixture-chip{display:inline-flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:800;text-transform:uppercase;color:var(--orange);font-size:14px;letter-spacing:2px;border:2px solid var(--orange);padding:8px 13px}
+.fixture-chip .d{width:9px;height:9px;background:var(--orange);display:inline-block;animation:pulse 1.8s ease-out infinite}
+@media(max-width:560px){.fixture-chip span.long{display:none}}
+
+/* ── HERO ── */
+.hero{position:relative;overflow:hidden;border-bottom:6px solid var(--orange)}
+.hero .bg{position:absolute;inset:0;background:url('assets/hero.png') center 20%/cover no-repeat;filter:grayscale(100%) contrast(1.18) brightness(.6)}
+.hero .tint{position:absolute;inset:0;background:var(--orange);mix-blend-mode:multiply;opacity:.32}
+.hero .dark{position:absolute;inset:0;background:linear-gradient(100deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.72) 45%,rgba(0,0,0,.5) 100%)}
+/* pitch corner marks */
+.frame{position:absolute;inset:22px;pointer-events:none;z-index:1}
+.frame i{position:absolute;width:38px;height:38px;border:0 solid var(--field)}
+.frame .tl{top:0;left:0;border-top-width:3px;border-left-width:3px}
+.frame .tr{top:0;right:0;border-top-width:3px;border-right-width:3px}
+.frame .bl{bottom:0;left:0;border-bottom-width:3px;border-left-width:3px}
+.frame .br{bottom:0;right:0;border-bottom-width:3px;border-right-width:3px}
+.hero .wrap{position:relative;z-index:2;padding-top:84px;padding-bottom:84px}
+.hero h1{font-weight:900;font-size:clamp(46px,7.6vw,90px);max-width:940px}
+.hero .sub{font-family:var(--body);font-weight:500;color:#eaeaea;font-size:clamp(18px,2.4vw,23px);line-height:1.45;margin-top:24px;max-width:740px}
+.hero .sub b{color:var(--chalk);font-weight:700}
+.hero .kickoff{margin-top:30px}
+.hero .when{font-family:var(--body);font-weight:600;color:#dcdcdc;font-size:clamp(16px,2vw,19px);margin-top:18px;max-width:640px}
+.hero .when b{color:var(--orange);font-weight:700}
+.hero .cta{margin-top:30px}
+
+/* ── PROOF / broadcast stat strip ── */
+.proof{background:var(--orange);position:relative}
+.proof .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding-top:30px;padding-bottom:30px}
+.proof .item{text-align:center;padding:8px 18px;border-right:2px solid rgba(0,0,0,.22)}
+.proof .item:last-child{border-right:none}
+.proof .n{font-family:var(--disp);font-weight:900;color:#000;font-size:clamp(32px,4.4vw,50px);line-height:.9;letter-spacing:-1px}
+.proof .l{font-family:var(--body);font-weight:600;color:#1a1a1a;font-size:14px;line-height:1.35;margin-top:10px}
+@media(max-width:560px){.proof .wrap{grid-template-columns:1fr}.proof .item{border-right:none;border-bottom:2px solid rgba(0,0,0,.2);padding:16px}.proof .item:last-child{border-bottom:none}}
+
+/* ── SECTIONS ── */
+.sec{padding:78px 0}
+.sec--alt{background:var(--ink);border-top:2px solid var(--line);border-bottom:2px solid var(--line)}
+.h2{font-weight:900;font-size:clamp(32px,4.8vw,56px);max-width:900px}
+.lead{font-size:clamp(18px,2.2vw,21px);color:var(--muted);max-width:760px;margin-top:22px;line-height:1.6}
+.lead b{color:var(--chalk);font-weight:700}
+.lead+.lead{margin-top:18px}
+.lead,.move p,.gain p,.note p,.founder p,.ps p,.hero .sub,.formsec .sub,.team li{text-wrap:pretty}
+
+/* halfway-line divider with center spot */
+.fieldline{position:relative;height:2px;background:var(--field);max-width:760px;margin:38px 0 0}
+.fieldline::before{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:14px;height:14px;border:2px solid var(--orange);background:var(--black)}
+
+/* ── PLAY DIAGRAM (steps) ── */
+.play{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:46px;border:2px solid var(--line);background:var(--panel)}
+.move{position:relative;padding:30px 26px;border-right:2px solid var(--line)}
+.move:last-child{border-right:none}
+.move .num{font-family:var(--disp);font-weight:900;color:var(--orange);font-size:64px;line-height:.8;letter-spacing:-2px}
+.move h3{font-size:24px;margin-top:12px;font-weight:800;color:var(--chalk)}
+.move p{font-size:16px;color:var(--muted);margin-top:12px;line-height:1.5}
+.move::after{content:"";position:absolute;top:50%;right:-9px;width:14px;height:14px;border-top:3px solid var(--orange);border-right:3px solid var(--orange);transform:translateY(-50%) rotate(45deg);background:var(--panel);z-index:2}
+.move:last-child::after{display:none}
+@media(max-width:760px){.play{grid-template-columns:1fr}.move{border-right:none;border-bottom:2px solid var(--line)}.move:last-child{border-bottom:none}.move::after{top:auto;bottom:-9px;right:50%;transform:translateX(50%) rotate(135deg)}}
+
+/* ── GAINS / kit panels ── */
+.gains{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:46px}
+.gain{background:var(--ink);border:2px solid var(--line);border-top:5px solid var(--orange);padding:30px 26px;position:relative}
+.gain .tag{font-family:var(--disp);font-weight:900;color:var(--orange);font-size:14px;letter-spacing:2px;display:block;margin-bottom:14px}
+.gain h3{font-size:23px;font-weight:800;color:var(--chalk)}
+.gain p{font-size:16px;color:var(--muted);margin-top:12px;line-height:1.5}
+@media(max-width:760px){.gains{grid-template-columns:1fr}}
+
+/* ── BAND PHOTO ── */
+.band{position:relative;height:340px;overflow:hidden;border-top:6px solid var(--orange);border-bottom:6px solid var(--orange);background:#0a0a0a}
+.band .bg{position:absolute;inset:0;background:url('assets/banda.png') center 30%/cover no-repeat;filter:grayscale(100%) contrast(1.08) brightness(1)}
+.band .tint{position:absolute;inset:0;background:var(--orange);mix-blend-mode:multiply;opacity:.3}
+.band .frame{inset:18px}
+
+/* ── TEAM SHEET (fit) ── */
+.sheet{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:46px}
+.team{border:2px solid var(--line);background:var(--ink)}
+.team .head{display:flex;align-items:center;gap:12px;padding:18px 26px;border-bottom:2px solid var(--line)}
+.team .head .badge{font-family:var(--disp);font-weight:900;font-size:13px;letter-spacing:2px;text-transform:uppercase;padding:6px 11px}
+.team.in .head .badge{background:var(--orange);color:#000}
+.team.out .head .badge{background:#2a2a2a;color:var(--faint)}
+.team .head h3{font-size:21px;font-weight:800;color:var(--chalk)}
+.team ul{list-style:none;padding:8px 26px 22px}
+.team li{font-family:var(--body);font-size:17px;color:#e4e4e4;padding:14px 0 14px 34px;position:relative;border-bottom:1px solid var(--line)}
+.team li:last-child{border-bottom:none}
+.team.in li::before{content:"›";position:absolute;left:0;top:11px;color:var(--orange);font-family:var(--disp);font-weight:900;font-size:24px;line-height:1}
+.team.out li{color:#8f8f8f}
+.team.out li::before{content:"×";position:absolute;left:2px;top:12px;color:#666;font-family:var(--disp);font-weight:900;font-size:21px;line-height:1}
+@media(max-width:760px){.sheet{grid-template-columns:1fr}}
+
+/* ── NOTE BOX (fair play) ── */
+.note{border:2px solid var(--orange);border-left:6px solid var(--orange);padding:26px 28px;margin-top:38px;max-width:840px;background:rgba(242,90,4,.05)}
+.note .t{font-family:var(--disp);font-weight:900;text-transform:uppercase;color:var(--orange);font-size:20px;letter-spacing:1px}
+.note p{font-size:17px;color:#e4e4e4;margin-top:10px;line-height:1.55}
+
+/* ── FOUNDER ── */
+.founder p{font-size:clamp(18px,2.2vw,21px);color:var(--muted);max-width:840px;margin-top:18px;line-height:1.6}
+.founder p b{color:var(--chalk);font-weight:700}
+
+/* ── FORM ── */
+.formsec{background:var(--orange);color:#000;padding:82px 0}
+.formsec .eyebrow{color:#000}
+.formsec .eyebrow::before{background:#000}
+.formsec .h2{color:#000;max-width:780px}
+.formsec .h2 .u{text-decoration:underline;text-decoration-thickness:5px;text-underline-offset:6px}
+.formsec .sub{font-family:var(--body);font-weight:600;font-size:19px;color:#1a1a1a;margin-top:18px;max-width:680px;line-height:1.5}
+form{margin-top:34px;max-width:560px}
+.field{margin-bottom:16px}
+label{display:block;font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:15px;letter-spacing:1px;color:#1a1a1a;margin-bottom:7px}
+input{width:100%;background:#000;color:var(--chalk);border:2px solid #000;font-family:var(--body);font-size:18px;padding:16px 18px;outline:none}
+input::placeholder{color:#7a7a7a}
+input:focus-visible{outline:none;border-color:#fff;box-shadow:0 0 0 3px #fff inset}
+.field.bad input{border-color:#7a1500;box-shadow:0 0 0 2px #7a1500 inset}
+.err{display:none;font-family:var(--body);font-weight:600;font-size:14px;color:#5e1000;margin-top:7px}
+.field.bad .err{display:block}
+form .btn{background:#000;color:var(--chalk);width:100%;justify-content:center;margin-top:10px;font-size:22px;padding:22px;box-shadow:none}
+form .btn:hover{background:#161616;box-shadow:none;transform:translateY(-2px)}
+form .btn[aria-busy="true"]{background:#161616;cursor:progress}
+.loader{display:none;gap:6px;align-items:center}
+.btn[aria-busy="true"] .loader{display:inline-flex}
+.btn[aria-busy="true"] .label,.btn[aria-busy="true"] .arrow{display:none}
+.loader i{width:9px;height:9px;background:var(--chalk);display:block;animation:blink 1s infinite ease-in-out both}
+.loader i:nth-child(2){animation-delay:.16s}
+.loader i:nth-child(3){animation-delay:.32s}
+@keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+.formnote{font-size:14px;color:#1a1a1a;margin-top:14px;line-height:1.5}
+.ps{margin-top:44px;max-width:760px;border-top:2px solid #1a1a1a;padding-top:26px}
+.ps p{font-family:var(--body);font-size:18px;color:#1a1a1a;line-height:1.6}
+.ps p+p{margin-top:14px}
+.ps b{font-weight:700;color:#000}
+.ps .lbl{font-family:var(--disp);font-weight:900;text-transform:uppercase;letter-spacing:1px}
+.thanks{display:none;background:#000;color:var(--chalk);border:2px solid #000;border-top:5px solid #000;padding:34px;margin-top:34px;max-width:560px}
+.thanks.show{display:block}
+.thanks .tag{font-family:var(--disp);font-weight:900;color:var(--orange);font-size:14px;letter-spacing:2px;display:block;margin-bottom:10px}
+.thanks h3{color:var(--chalk);font-size:30px}
+.thanks p{font-family:var(--body);font-weight:500;font-size:18px;margin-top:12px;line-height:1.5}
+
+/* ── FOOTER ── */
+footer{padding:46px 0;border-top:2px solid var(--line);text-align:center}
+footer .logo{height:46px;margin:0 auto 16px}
+footer p{font-size:14px;color:#777;line-height:1.6}
+
+.cta-center{margin-top:46px}
+
+/* ── reveal animation ── */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+.hero-anim{opacity:0;transform:translateY(16px);animation:rise .7s ease forwards}
+.hero-anim.d1{animation-delay:.05s}.hero-anim.d2{animation-delay:.18s}.hero-anim.d3{animation-delay:.31s}.hero-anim.d4{animation-delay:.44s}.hero-anim.d5{animation-delay:.57s}
+@keyframes rise{to{opacity:1;transform:none}}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .reveal,.hero-anim{opacity:1;transform:none}
+  .dot,.fixture-chip .d{animation:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<!-- TOPBAR -->
+<header class="topbar"><div class="wrap">
+  <img class="logo" src="assets/logo-next.png" alt="NEXT Academy" width="110" height="40">
+  <div class="fixture-chip"><span class="d" aria-hidden="true"></span>Apresentação ao vivo<span class="long">&nbsp;· Quinta 19h</span></div>
+</div></header>
+
+<main id="conteudo">
+
+<!-- BLOCO 1 · HERO -->
+<section class="hero">
+  <div class="bg" aria-hidden="true"></div><div class="tint" aria-hidden="true"></div><div class="dark" aria-hidden="true"></div>
+  <div class="frame" aria-hidden="true"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div>
+  <div class="wrap">
+    <div class="eyebrow hero-anim d1">Apresentação ao vivo</div>
+    <!-- TESTE A/B de H1. Variante atual: reframe + mecanismo ("Uber do futebol"). Original (promessa) abaixo, comentada, pra trocar/voltar:
+    <h1 class="hero-anim d2">Transforme o futebol que você ama na sua <span class="o">fonte de renda.</span></h1> -->
+    <h1 class="hero-anim d2">O <span class="o">Uber do futebol</span> já está rodando. Falta você atender.</h1>
+    <p class="sub hero-anim d3">A NEXT traz as famílias que procuram futebol pros filhos. <b>Você atende pelo WhatsApp, fecha a matrícula e ganha comissão.</b> A demanda chega pronta: você não prospecta no frio nem monta estrutura.</p>
+    <div class="kickoff hero-anim d4" role="group" aria-label="Quinta, 19h, ao vivo">
+      <span><span class="ko-k">Dia</span><span class="ko-v">QUI</span></span>
+      <span><span class="ko-k">Horário</span><span class="ko-v tnums">19<span class="u">H</span></span></span>
+      <span class="live"><span class="ko-k">Transmissão</span><span class="ko-v"><span class="dot" aria-hidden="true"></span>AO&nbsp;VIVO</span></span>
+    </div>
+    <div class="cta hero-anim d5"><a class="btn" href="#form">Quero meu lugar na apresentação <span class="arrow" aria-hidden="true">&#9654;</span></a></div>
+  </div>
+</section>
+
+<!-- BLOCO 2 · PROVA RÁPIDA -->
+<div class="proof"><div class="wrap">
+  <div class="item"><div class="n tnums">12&nbsp;anos</div><div class="l">de mercado no futebol</div></div>
+  <div class="item"><div class="n tnums">+4.000</div><div class="l">atletas encaminhados pra clubes no Brasil, EUA, Canadá e Europa</div></div>
+  <div class="item"><div class="n">Adidas</div><div class="l">parceria oficial desde 2014</div></div>
+</div></div>
+
+<!-- BLOCO 3 · O QUE É -->
+<section class="sec"><div class="wrap">
+  <div class="eyebrow reveal">O que é</div>
+  <h2 class="h2 reveal">Um negócio seu, com a marca de quem já encaminhou <span class="o">+4.000 atletas.</span></h2>
+  <p class="lead reveal">Ser Licenciado NEXT é um negócio seu, não um emprego com chefe e ponto pra bater. Você entra, é treinado e passa a representar a NEXT na sua região. <b>Quanto mais você fecha, mais comissão entra. Não tem teto.</b></p>
+  <p class="lead reveal">E tem pra onde crescer: de Licenciado a Coordenador de Captação, até Dono de Academia. <b>O mesmo caminho que gente que começou exatamente onde você vai começar já fez.</b></p>
+  <div class="fieldline reveal" aria-hidden="true"></div>
+</div></section>
+
+<!-- BLOCO 4 · COMO FUNCIONA -->
+<section class="sec sec--alt"><div class="wrap">
+  <div class="eyebrow reveal">Como funciona · O Uber do futebol</div>
+  <h2 class="h2 reveal">O cliente chega pronto. <span class="o">Você só fecha.</span></h2>
+  <p class="lead reveal">Três passos, do lead à matrícula fechada.</p>
+  <div class="play reveal">
+    <div class="move"><div class="num tnums">1</div><h3>A NEXT gera o cliente</h3><p>A NEXT roda a campanha de mídia. As famílias que procuram futebol e educação pros filhos chegam até você, pelo sistema. Você não liga pra desconhecido nem prospecta no frio.</p></div>
+    <div class="move"><div class="num tnums">2</div><h3>Você atende</h3><p>Abre o app, fala pelo WhatsApp, tira as dúvidas. Ele já chega querendo. Metade do trabalho de vender já está feita.</p></div>
+    <div class="move"><div class="num tnums">3</div><h3>Você fecha</h3><p>Conduz pra matrícula e ganha a comissão. Como o Uber do futebol: o cliente aparece, você aceita, você vai.</p></div>
+  </div>
+  <div class="cta-center reveal"><a class="btn" href="#form">Quero meu lugar na apresentação <span class="arrow" aria-hidden="true">&#9654;</span></a></div>
+</div></section>
+
+<!-- BANDA FOTO -->
+<div class="band"><div class="bg" aria-hidden="true"></div><div class="tint" aria-hidden="true"></div><div class="frame" aria-hidden="true"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div></div>
+
+<!-- BLOCO 5 · O QUE O LICENCIADO GANHA -->
+<section class="sec"><div class="wrap">
+  <div class="eyebrow reveal">O que você ganha</div>
+  <h2 class="h2 reveal">Você não começa sozinho. <span class="o">E nem do zero.</span></h2>
+  <div class="gains">
+    <div class="gain reveal"><span class="tag tnums">01</span><h3>Treinamento completo</h3><p>Método pronto e acompanhamento na primeira semana, com alguém experiente do seu lado. Você não inventa nada: segue o que já funciona.</p></div>
+    <div class="gain reveal"><span class="tag tnums">02</span><h3>Um setor de marketing pra você</h3><p>A NEXT gera a demanda e te entrega o cliente. O peso de achar gente, que quebra a maioria dos negócios, não é mais seu.</p></div>
+    <div class="gain reveal"><span class="tag tnums">03</span><h3>Você só precisa vender</h3><p>Atende quem já chega interessado, de casa e no seu horário, tira a dúvida e fecha. A parte que dá retorno, sem a parte que cansa.</p></div>
+  </div>
+</div></section>
+
+<!-- BLOCO 6 · PROVA (cases) -->
+<!-- TODO operador: confirmar com o Yalli nome+cidade+prazo de cada case (a transcrição funde os depoentes). Ver EXTRACAO-AULA-YALLI.md §1. -->
+<section class="sec sec--alt"><div class="wrap">
+  <div class="eyebrow reveal">Eles começaram onde você está agora</div>
+  <h2 class="h2 reveal">Começaram como Licenciados. <span class="o">Hoje são donos.</span></h2>
+  <p class="lead reveal"><b>[confirmar nome]</b>, de [confirmar cidade], lavava carro num posto antes de conhecer a NEXT. Começou atendendo os atletas que chegavam, foi fechando matrícula e, em [confirmar prazo], virou <b>sócio franqueado</b>. Hoje toca a própria operação no comercial da NEXT.</p>
+  <p class="lead reveal"><b>[confirmar nome]</b> largou a faculdade e a carteira assinada pra apostar nisso. A família foi contra. Quando o resultado apareceu, todo mundo passou a apoiar. Hoje é <b>sócio franqueado em [confirmar cidade]</b>.</p>
+  <p class="lead reveal">Os dois começaram exatamente onde você vai começar: atendendo pelo WhatsApp os atletas que a NEXT manda, conduzindo pra seletiva, fechando a matrícula.</p>
+</div></section>
+
+<!-- BLOCO 7 · O QUE VAI ACONTECER NA APRESENTAÇÃO -->
+<section class="sec founder"><div class="wrap">
+  <div class="eyebrow reveal">O que vai acontecer na apresentação</div>
+  <h2 class="h2 reveal">Quinta, 19h, o <span class="o">Yalli Oliveira</span> abre o modelo inteiro ao vivo.</h2>
+  <p class="reveal">Em uma hora, o fundador e presidente da NEXT mostra como o modelo de Licenciado NEXT funciona por dentro, o plano de carreira até Dono de Academia, e exatamente como entrar.</p>
+  <p class="reveal">Aos 20 anos, Yalli foi pros Estados Unidos com bolsa de 100% pra estudar e jogar futebol. Voltou formado em Ciência da Computação e fundou a NEXT em 2013, do zero, ao lado dos sócios Lucas e Danilo. <b>Hoje a NEXT está em mais de 100 cidades</b> e faz parte da UNBK, o grupo que já transformou mais de 10 mil vidas pelo esporte e a educação. Não é teoria de quem nunca fez: é o sistema de quem construiu tudo.</p>
+  <p class="reveal">Ele explica e responde ao vivo. Quem quiser entrar no negócio sai da apresentação sabendo o próximo passo.</p>
+  <div class="note reveal">
+    <div class="t">Sem letra miúda</div>
+    <p>Entrar como Licenciado NEXT tem uma taxa de interesse, pra quem decidir fazer parte ao final. Não é pra todo mundo, e é de propósito: separa quem só quer dar uma olhada de quem quer construir. A apresentação você assiste inteira, sem compromisso, e decide ao vivo com tudo na mesa.</p>
+  </div>
+</div></section>
+
+<!-- BLOCO 8 · PRA QUEM É / NÃO É -->
+<section class="sec sec--alt"><div class="wrap">
+  <div class="eyebrow reveal">Antes de garantir seu lugar, leia</div>
+  <h2 class="h2 reveal">Pra quem é. <span class="o">E pra quem não é.</span></h2>
+  <div class="sheet">
+    <div class="team in reveal">
+      <div class="head"><span class="badge">Convocado</span><h3>É pra você que</h3></div>
+      <ul>
+        <li>Ama futebol e quer construir uma renda com isso.</li>
+        <li>Quer ganhar por resultado, sem teto.</li>
+        <li>Topa começar, ser treinado e fechar vendas.</li>
+        <li>Quer um negócio seu, não um chefe.</li>
+      </ul>
+    </div>
+    <div class="team out reveal">
+      <div class="head"><span class="badge">Fica de fora</span><h3>Não é pra você que</h3></div>
+      <ul>
+        <li>Procura salário fixo independente de resultado.</li>
+        <li>Quer ganhar sem vender.</li>
+        <li>Não topa investir em si mesmo pra começar.</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- BLOCO 9 · CHAMADA FINAL + FORMULÁRIO -->
+<section class="formsec" id="form" style="scroll-margin-top:24px"><div class="wrap">
+  <div class="eyebrow">Garanta seu lugar</div>
+  <h2 class="h2">O futebol sempre esteve na sua vida. Quinta, ele pode virar a sua <span class="u">renda.</span></h2>
+  <p class="sub">Leva 30 segundos. Deixa teu nome e WhatsApp e garante teu lugar na turma desta semana.</p>
+
+  <form id="leadform" novalidate>
+    <div class="field">
+      <label for="nome">Nome</label>
+      <input id="nome" name="nome" type="text" autocomplete="name" placeholder="Ex.: João da Silva…" aria-describedby="err-nome" required>
+      <span class="err" id="err-nome">Digite seu nome completo.</span>
+    </div>
+    <div class="field">
+      <label for="whats">WhatsApp</label>
+      <input id="whats" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" spellcheck="false" placeholder="Ex.: (11) 90000-0000…" aria-describedby="err-whats" required>
+      <span class="err" id="err-whats">Digite um WhatsApp com DDD.</span>
+    </div>
+    <div class="field">
+      <label for="email">E-mail</label>
+      <input id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="Ex.: voce@email.com…" aria-describedby="err-email" required>
+      <span class="err" id="err-email">Digite um e-mail válido.</span>
+    </div>
+    <div class="field">
+      <label for="cidade">Cidade</label>
+      <input id="cidade" name="cidade" type="text" autocomplete="address-level2" placeholder="Ex.: Belo Horizonte…" aria-describedby="err-cidade" required>
+      <span class="err" id="err-cidade">Digite sua cidade.</span>
+    </div>
+    <button class="btn" type="submit">
+      <span class="label">Quero meu lugar na apresentação</span>
+      <span class="arrow" aria-hidden="true">&#9654;</span>
+      <span class="loader" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+    <p class="formnote">Ao enviar, você entra no grupo da turma da semana e recebe o link da apresentação ao vivo de quinta, 19h.</p>
+  </form>
+
+  <div class="thanks" id="thanks" role="status" aria-live="polite">
+    <span class="tag">Presença confirmada</span>
+    <h3>Lugar garantido!</h3>
+    <p>Confirmamos seu cadastro. Em instantes você entra no grupo da turma da semana e recebe o link da apresentação ao vivo de quinta, 19h. Até lá.</p>
+  </div>
+
+</div></section>
+
+</main>
+
+<!-- FOOTER -->
+<footer><div class="wrap">
+  <img class="logo" src="assets/logo-next.png" alt="NEXT Academy" width="126" height="46" loading="lazy">
+  <p>NEXT · 12 anos de mercado · Parceria oficial Adidas · Mais de 4.000 atletas encaminhados.<br>
+  Apresentação informativa. A entrada como Licenciado NEXT é opcional e possui taxa de interesse.<br>
+  CNPJ [a confirmar] · &copy; 2026 NEXT. Todos os direitos reservados.</p>
+</div></footer>
+
+<!-- STICKY CTA -->
+<div class="sticky" id="sticky"><div class="wrap">
+  <span class="txt"><span class="d" aria-hidden="true"></span>Quinta, 19h · Ao vivo</span>
+  <a class="btn" href="#form">Quero meu lugar <span class="arrow" aria-hidden="true">&#9654;</span></a>
+</div></div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ── scroll reveal ──
+  var reveals = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) {
+    reveals.forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
+    reveals.forEach(function(el){ io.observe(el); });
+  }
+
+  // ── sticky CTA: aparece depois do hero, some na seção do form ──
+  var hero = document.querySelector('.hero'),
+      sticky = document.getElementById('sticky'),
+      form = document.getElementById('form');
+  function onScroll(){
+    var past = window.scrollY > (hero.offsetHeight - 80);
+    var atForm = form.getBoundingClientRect().top < window.innerHeight;
+    sticky.classList.toggle('show', past && !atForm);
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // ── form: validação inline + foco no 1º erro + estado de envio ──
+  var formEl = document.getElementById('leadform'),
+      btn = formEl.querySelector('button[type="submit"]'),
+      thanks = document.getElementById('thanks');
+
+  formEl.querySelectorAll('input').forEach(function(inp){
+    inp.addEventListener('input', function(){
+      inp.closest('.field').classList.remove('bad');
+      inp.removeAttribute('aria-invalid');
+    });
+  });
+
+  formEl.addEventListener('submit', function(e){
+    e.preventDefault();
+    var fields = formEl.querySelectorAll('input');
+    var firstBad = null;
+    fields.forEach(function(inp){
+      var wrap = inp.closest('.field');
+      if (!inp.checkValidity()){
+        wrap.classList.add('bad');
+        inp.setAttribute('aria-invalid','true');
+        if (!firstBad) firstBad = inp;
+      } else {
+        wrap.classList.remove('bad');
+        inp.removeAttribute('aria-invalid');
+      }
+    });
+    if (firstBad){ firstBad.focus(); firstBad.scrollIntoView({behavior: reduce?'auto':'smooth', block:'center'}); return; }
+
+    // estado de envio
+    btn.setAttribute('aria-busy','true');
+    btn.disabled = true;
+
+    // TODO operador: enviar dados (nome, whatsapp, email, cidade) ao CRM/webhook
+    // e redirecionar pro grupo da turma da semana. Substituir o setTimeout abaixo.
+    setTimeout(function(){
+      formEl.style.display = 'none';
+      thanks.classList.add('show');
+      thanks.scrollIntoView({behavior: reduce?'auto':'smooth', block:'center'});
+    }, 700);
+  });
+})();
+</script>
+</body>
+</html>
