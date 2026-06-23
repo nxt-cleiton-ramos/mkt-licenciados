@@ -343,6 +343,22 @@ h1,h2,h3{line-height:1.02;letter-spacing:-1.5px}
 .kickoff .ko-day{font-size:clamp(17px,2vw,22px)}
 .btn{font-size:21px;letter-spacing:.5px}
 .cta span,.sticky .txt,.eyebrow{letter-spacing:1.5px}
+
+/* ── DEPOIMENTOS EM VÍDEO ── */
+.videos{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:42px}
+.vcard{position:relative;display:block;width:100%;aspect-ratio:16/9;border:1px solid var(--line);background:#000;cursor:pointer;overflow:hidden;padding:0}
+.vthumb{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .35s ease}
+.vcard:hover .vthumb{transform:scale(1.05)}
+.vplay{position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);width:54px;height:54px;display:flex;align-items:center;justify-content:center;background:var(--orange);color:#000;font-size:20px;padding-left:4px;z-index:2;transition:background .14s}
+.vcard:hover .vplay{background:var(--orange-bright)}
+.vcap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:16px 14px 12px;background:linear-gradient(0deg,rgba(0,0,0,.9) 10%,rgba(0,0,0,0));display:flex;flex-direction:column;gap:3px;text-align:left}
+.vcap b{font-family:var(--disp);font-weight:800;text-transform:uppercase;color:#fff;font-size:14px;line-height:1.12;letter-spacing:.3px}
+.vcap small{font-family:var(--body);font-weight:700;color:var(--orange);font-size:12px}
+.vframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vmore{display:inline-block;margin-top:24px;font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--orange);font-size:14px;border-bottom:2px solid var(--orange);padding-bottom:3px}
+.vmore:hover{color:var(--orange-bright);border-color:var(--orange-bright)}
+@media(max-width:860px){.videos{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.videos{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -431,14 +447,44 @@ h1,h2,h3{line-height:1.02;letter-spacing:-1.5px}
   </div>
 </div></section>
 
-<!-- BLOCO 6 · PROVA (cases) -->
-<!-- TODO operador: confirmar com o Yalli nome+cidade+prazo de cada case (a transcrição funde os depoentes). Ver EXTRACAO-AULA-YALLI.md §1. -->
+<!-- BLOCO 6 · DEPOIMENTOS EM VÍDEO (série "O Agente de Sucesso") -->
 <section class="sec sec--alt"><div class="wrap">
-  <div class="eyebrow reveal">Eles começaram onde você está agora</div>
+  <div class="eyebrow reveal">Depoimentos · Série "O Agente de Sucesso"</div>
   <h2 class="h2 reveal">Começaram como Licenciados. <span class="o">Hoje são donos.</span></h2>
-  <p class="lead reveal"><b>[confirmar nome]</b>, de [confirmar cidade], lavava carro num posto antes de conhecer a NEXT. Começou atendendo os atletas que chegavam, foi fechando matrícula e, em [confirmar prazo], virou <b>sócio franqueado</b>. Hoje toca a própria operação no comercial da NEXT.</p>
-  <p class="lead reveal"><b>[confirmar nome]</b> largou a faculdade e a carteira assinada pra apostar nisso. A família foi contra. Quando o resultado apareceu, todo mundo passou a apoiar. Hoje é <b>sócio franqueado em [confirmar cidade]</b>.</p>
-  <p class="lead reveal">Os dois começaram exatamente onde você vai começar: atendendo no WhatsApp os atletas que a NEXT manda e levando eles pra seletiva.</p>
+  <p class="lead reveal">Gente de verdade que começou exatamente onde você vai começar. Aperta o play e escuta de quem já vive disso.</p>
+  <div class="videos reveal">
+    <button class="vcard" type="button" data-id="r_jxPOJBpzc" aria-label="Depoimento de Eduardo Chaikoski">
+      <span class="vthumb" style="background-image:url('https://i.ytimg.com/vi/r_jxPOJBpzc/hqdefault.jpg')"></span>
+      <span class="vplay" aria-hidden="true">&#9654;</span>
+      <span class="vcap"><b>Do lava-car ao melhor agente do Brasil</b><small>Eduardo Chaikoski</small></span>
+    </button>
+    <button class="vcard" type="button" data-id="KZl-EFkxOtY" aria-label="Depoimento de Eduardo Melo">
+      <span class="vthumb" style="background-image:url('https://i.ytimg.com/vi/KZl-EFkxOtY/hqdefault.jpg')"></span>
+      <span class="vplay" aria-hidden="true">&#9654;</span>
+      <span class="vcap"><b>A NEXT mudou minha vida duas vezes</b><small>Eduardo Melo</small></span>
+    </button>
+    <button class="vcard" type="button" data-id="6Oue6Cj64H0" aria-label="Depoimento de Márcio Ferraz">
+      <span class="vthumb" style="background-image:url('https://i.ytimg.com/vi/6Oue6Cj64H0/hqdefault.jpg')"></span>
+      <span class="vplay" aria-hidden="true">&#9654;</span>
+      <span class="vcap"><b>Hoje sou sócio franqueado</b><small>Márcio Ferraz</small></span>
+    </button>
+    <button class="vcard" type="button" data-id="drNjw2mwJJc" aria-label="Depoimento de Caio Grilo">
+      <span class="vthumb" style="background-image:url('https://i.ytimg.com/vi/drNjw2mwJJc/hqdefault.jpg')"></span>
+      <span class="vplay" aria-hidden="true">&#9654;</span>
+      <span class="vcap"><b>Comecei totalmente do zero</b><small>Caio Grilo</small></span>
+    </button>
+    <button class="vcard" type="button" data-id="ZkJROo_qquM" aria-label="Depoimento de Laio Pinho">
+      <span class="vthumb" style="background-image:url('https://i.ytimg.com/vi/ZkJROo_qquM/hqdefault.jpg')"></span>
+      <span class="vplay" aria-hidden="true">&#9654;</span>
+      <span class="vcap"><b>Cresci quando vi que só dependia de mim</b><small>Laio Pinho</small></span>
+    </button>
+    <button class="vcard" type="button" data-id="yB20_7dyjPU" aria-label="Depoimento de Caio Echeverria">
+      <span class="vthumb" style="background-image:url('https://i.ytimg.com/vi/yB20_7dyjPU/hqdefault.jpg')"></span>
+      <span class="vplay" aria-hidden="true">&#9654;</span>
+      <span class="vcap"><b>Me descobri no setor comercial</b><small>Caio Echeverria</small></span>
+    </button>
+  </div>
+  <a class="vmore" href="https://www.youtube.com/playlist?list=PLFBtlit8JfqIMb_6caxXd8Gvv-lred3LX" target="_blank" rel="noopener">Ver todos os depoimentos no YouTube &#9654;</a>
   <div class="cta-center reveal"><a class="btn" href="#form">Quero mudar de vida também <span class="arrow" aria-hidden="true">&#9654;</span></a></div>
 </div></section>
 
@@ -631,6 +677,22 @@ h1,h2,h3{line-height:1.02;letter-spacing:-1.5px}
     ss.textContent=pad(Math.floor(rdy%6e4/1e3));
   }
   tick();setInterval(tick,1000);
+})();
+</script>
+<script>
+(function(){
+  document.querySelectorAll('.vcard').forEach(function(c){
+    c.addEventListener('click',function(){
+      var id=c.getAttribute('data-id');if(!id)return;
+      var f=document.createElement('iframe');
+      f.className='vframe';
+      f.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0&modestbranding=1';
+      f.title='Depoimento';
+      f.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.setAttribute('allowfullscreen','');
+      c.innerHTML='';c.appendChild(f);
+    },{once:true});
+  });
 })();
 </script>
 </body>
