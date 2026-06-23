@@ -315,6 +315,23 @@ html[data-theme="light"] .formsec input{background:#fff;border-color:var(--line)
 html[data-theme="light"] .formsec input::placeholder{color:var(--faint)}
 html[data-theme="light"] .formsec .thanks{background:#fff;color:var(--chalk);border-color:var(--line)}
 html[data-theme="light"] .formsec .thanks p{color:var(--muted)}
+
+/* ── FOTOS COLORIDAS ── */
+.hero .bg{filter:contrast(1.06) brightness(.72) saturate(1.05)}
+.hero .tint{opacity:.06}
+.band .bg{filter:contrast(1.04) brightness(1) saturate(1.05)}
+.band .tint{opacity:.06}
+html[data-theme="light"] .hero .bg{filter:contrast(1.02) brightness(1.02) saturate(1.05)}
+html[data-theme="light"] .hero .tint{opacity:.05}
+html[data-theme="light"] .band .bg{filter:contrast(1.02) brightness(1.02) saturate(1.05)}
+
+/* ── COUNTDOWN ── */
+.countdown{margin-top:26px;display:flex;flex-direction:column;gap:10px;max-width:360px}
+.cd-label{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:13px;letter-spacing:2px;color:var(--orange)}
+.cd-cells{display:flex;gap:8px}
+.cd-cells>span{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;min-width:0;padding:8px 4px;background:var(--ink);border:1px solid var(--line);border-top:3px solid var(--orange)}
+.cd-cells b{font-family:var(--disp);font-weight:900;font-size:clamp(26px,3.4vw,34px);line-height:.9;color:var(--chalk);font-variant-numeric:tabular-nums}
+.cd-cells small{font-family:var(--body);font-weight:600;text-transform:uppercase;font-size:10px;letter-spacing:1px;color:var(--faint);margin-top:5px}
 </style>
 </head>
 <body>
@@ -340,14 +357,21 @@ html[data-theme="light"] .formsec .thanks p{color:var(--muted)}
   <div class="frame" aria-hidden="true"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div>
   <div class="wrap">
     <div class="eyebrow hero-anim d1">Apresentação ao vivo</div>
-    <!-- TESTE A/B de H1. Variante atual: reframe + mecanismo ("Uber do futebol"). Original (promessa) abaixo, comentada, pra trocar/voltar:
-    <h1 class="hero-anim d2">Transforme o futebol que você ama na sua <span class="o">fonte de renda.</span></h1> -->
     <h1 class="hero-anim d2">O futebol sempre esteve na sua vida. Quinta-feira, ele pode virar a sua <span class="o">renda.</span></h1>
-    <p class="sub hero-anim d3">A NEXT traz as famílias que procuram futebol pros filhos. <b>Você atende pelo WhatsApp, fecha a matrícula e ganha comissão.</b> A demanda chega pronta: você não prospecta no frio nem monta estrutura.</p>
+    <p class="sub hero-anim d3">Você vira <b>agente licenciado da NEXT</b>. A gente te manda no WhatsApp as famílias que já estão procurando futebol pro filho. Você conversa, leva pra avaliação e <b>ganha por cada atleta que entra</b>. Não precisa caçar ninguém no frio: eles já chegam até você.</p>
     <div class="kickoff hero-anim d4" role="group" aria-label="Quinta-feira, 19h, ao vivo">
       <span><span class="ko-k">Dia</span><span class="ko-v ko-day">QUINTA-FEIRA</span></span>
       <span><span class="ko-k">Horário</span><span class="ko-v tnums">19<span class="u">H</span></span></span>
       <span class="live"><span class="ko-k">Transmissão</span><span class="ko-v"><span class="dot" aria-hidden="true"></span>AO&nbsp;VIVO</span></span>
+    </div>
+    <div class="countdown hero-anim d4" aria-hidden="true">
+      <span class="cd-label">A próxima apresentação começa em</span>
+      <div class="cd-cells">
+        <span><b id="cd-d">--</b><small>dias</small></span>
+        <span><b id="cd-h">--</b><small>horas</small></span>
+        <span><b id="cd-m">--</b><small>min</small></span>
+        <span><b id="cd-s">--</b><small>seg</small></span>
+      </div>
     </div>
     <div class="cta hero-anim d5"><a class="btn" href="#form">Quero meu lugar na apresentação <span class="arrow" aria-hidden="true">&#9654;</span></a></div>
   </div>
@@ -364,20 +388,20 @@ html[data-theme="light"] .formsec .thanks p{color:var(--muted)}
 <section class="sec"><div class="wrap">
   <div class="eyebrow reveal">O que é</div>
   <h2 class="h2 reveal">Um negócio seu, com a marca de quem já encaminhou <span class="o">+4.000 atletas.</span></h2>
-  <p class="lead reveal">Ser Licenciado NEXT é um negócio seu, não um emprego com chefe e ponto pra bater. Você entra, é treinado e passa a representar a NEXT na sua região. <b>Quanto mais você fecha, mais comissão entra. Não tem teto.</b></p>
-  <p class="lead reveal">E tem pra onde crescer: de Licenciado a Coordenador de Captação, até <b>Dono de uma unidade NEXT</b>. Gente que começou exatamente onde você vai começar já percorreu esse caminho inteiro.</p>
+  <p class="lead reveal">Ser Licenciado NEXT é um negócio seu, não um emprego com chefe e cartão de ponto. Você é treinado e vira o agente da NEXT na sua região, captando atletas pra rede. <b>Quanto mais gente você traz, mais comissão entra. E não tem teto.</b></p>
+  <p class="lead reveal">E dá pra crescer: começa como Licenciado, vira Coordenador de Captação e pode chegar a <b>Dono de uma unidade NEXT</b>. Tem gente que começou exatamente onde você vai começar e já fez esse caminho todo.</p>
   <div class="fieldline reveal" aria-hidden="true"></div>
 </div></section>
 
 <!-- BLOCO 4 · COMO FUNCIONA -->
 <section class="sec sec--alt"><div class="wrap">
-  <div class="eyebrow reveal">Como funciona · O Uber do futebol</div>
-  <h2 class="h2 reveal">O cliente chega pronto. <span class="o">Você só fecha.</span></h2>
-  <p class="lead reveal">Três passos, do lead à matrícula fechada.</p>
+  <div class="eyebrow reveal">Como funciona</div>
+  <h2 class="h2 reveal">O atleta já chega interessado. <span class="o">Você só conduz.</span></h2>
+  <p class="lead reveal">São três passos, do primeiro contato até o atleta na avaliação.</p>
   <div class="play reveal">
-    <div class="move"><div class="num tnums">1</div><h3>A NEXT gera o cliente</h3><p>A NEXT roda a campanha de mídia. As famílias que procuram futebol e educação pros filhos chegam até você, pelo sistema. Você não liga para desconhecido nem prospecta no frio.</p></div>
-    <div class="move"><div class="num tnums">2</div><h3>Você atende</h3><p>Abre o app, fala pelo WhatsApp, tira as dúvidas. Ele já chega querendo. Metade do trabalho de vender já está feita.</p></div>
-    <div class="move"><div class="num tnums">3</div><h3>Você fecha</h3><p>Conduz pra matrícula e ganha a comissão. Como o Uber do futebol: o cliente aparece, você aceita, você vai.</p></div>
+    <div class="move"><div class="num tnums">1</div><h3>A NEXT te manda os interessados</h3><p>A gente roda os anúncios. As famílias que estão procurando futebol pro filho caem direto no seu WhatsApp. Você não liga para estranho nem fica caçando gente no frio.</p></div>
+    <div class="move"><div class="num tnums">2</div><h3>Você conversa</h3><p>Abre o WhatsApp, fala com a pessoa, tira as dúvidas. Ela já chega interessada, então metade do caminho já tá andado.</p></div>
+    <div class="move"><div class="num tnums">3</div><h3>Você leva pra avaliação</h3><p>Conduz o atleta pra seletiva da NEXT e ganha sua comissão por ele. Campo, professores, estrutura: o resto é com a gente.</p></div>
   </div>
   <div class="cta-center reveal"><a class="btn" href="#form">Quero meu lugar na apresentação <span class="arrow" aria-hidden="true">&#9654;</span></a></div>
 </div></section>
@@ -390,9 +414,9 @@ html[data-theme="light"] .formsec .thanks p{color:var(--muted)}
   <div class="eyebrow reveal">O que você ganha</div>
   <h2 class="h2 reveal">Você não começa sozinho. <span class="o">E nem do zero.</span></h2>
   <div class="gains">
-    <div class="gain reveal"><span class="tag tnums">01</span><h3>Treinamento completo</h3><p>Método pronto e acompanhamento na primeira semana, com alguém experiente do seu lado. Você não inventa nada: segue o que já funciona.</p></div>
-    <div class="gain reveal"><span class="tag tnums">02</span><h3>Um setor de marketing pra você</h3><p>A NEXT gera a demanda e te entrega o cliente. O peso de achar gente, que quebra a maioria dos negócios, não é mais seu.</p></div>
-    <div class="gain reveal"><span class="tag tnums">03</span><h3>Você só precisa vender</h3><p>Atende quem já chega interessado, de casa e no seu horário, tira a dúvida e fecha. A parte que dá retorno, sem a parte que cansa.</p></div>
+    <div class="gain reveal"><span class="tag tnums">01</span><h3>Treinamento de verdade</h3><p>Você não começa perdido. Tem método pronto e alguém com experiência do seu lado já na primeira semana. É só seguir o que já dá certo.</p></div>
+    <div class="gain reveal"><span class="tag tnums">02</span><h3>Um time de marketing por trás</h3><p>A NEXT faz os anúncios e te entrega os interessados. Aquela parte chata de achar cliente, que derruba a maioria, deixa de ser problema seu.</p></div>
+    <div class="gain reveal"><span class="tag tnums">03</span><h3>Sua parte é conversar</h3><p>Você fala com quem já chega interessado, de casa e no seu horário. Fica com a parte boa: o contato com as pessoas e o resultado.</p></div>
   </div>
 </div></section>
 
@@ -403,8 +427,8 @@ html[data-theme="light"] .formsec .thanks p{color:var(--muted)}
   <h2 class="h2 reveal">Começaram como Licenciados. <span class="o">Hoje são donos.</span></h2>
   <p class="lead reveal"><b>[confirmar nome]</b>, de [confirmar cidade], lavava carro num posto antes de conhecer a NEXT. Começou atendendo os atletas que chegavam, foi fechando matrícula e, em [confirmar prazo], virou <b>sócio franqueado</b>. Hoje toca a própria operação no comercial da NEXT.</p>
   <p class="lead reveal"><b>[confirmar nome]</b> largou a faculdade e a carteira assinada pra apostar nisso. A família foi contra. Quando o resultado apareceu, todo mundo passou a apoiar. Hoje é <b>sócio franqueado em [confirmar cidade]</b>.</p>
-  <p class="lead reveal">Os dois começaram exatamente onde você vai começar: atendendo pelo WhatsApp os atletas que a NEXT manda, conduzindo pra seletiva, fechando a matrícula.</p>
-  <div class="cta-center reveal"><a class="btn" href="#form">Quero meu lugar na apresentação <span class="arrow" aria-hidden="true">&#9654;</span></a></div>
+  <p class="lead reveal">Os dois começaram exatamente onde você vai começar: atendendo no WhatsApp os atletas que a NEXT manda e levando eles pra seletiva.</p>
+  <div class="cta-center reveal"><a class="btn" href="#form">Quero mudar de vida também <span class="arrow" aria-hidden="true">&#9654;</span></a></div>
 </div></section>
 
 <!-- BLOCO 7 · O QUE VAI ACONTECER NA APRESENTAÇÃO -->
@@ -412,7 +436,7 @@ html[data-theme="light"] .formsec .thanks p{color:var(--muted)}
   <div class="eyebrow reveal">O que vai acontecer na apresentação</div>
   <h2 class="h2 reveal">Quinta-feira, 19h, o <span class="o">Yalli Oliveira</span> abre o modelo inteiro ao vivo.</h2>
   <p class="reveal">Em uma hora, o fundador e presidente da NEXT mostra como o modelo de Licenciado NEXT funciona por dentro, o plano de carreira até virar dono de uma unidade NEXT, e exatamente como entrar.</p>
-  <p class="reveal">Aos 20 anos, Yalli foi pros Estados Unidos com bolsa de 100% pra estudar e jogar futebol. Voltou formado em Ciência da Computação e fundou a NEXT em 2013, do zero, ao lado dos sócios Lucas e Danilo. <b>Hoje a NEXT está em mais de 100 cidades</b> e faz parte da UNBK, o grupo que já transformou mais de 10 mil vidas pelo esporte e a educação. Não é teoria de quem nunca fez: é o sistema de quem construiu tudo.</p>
+  <p class="reveal">Aos 20 anos, Yalli foi pros Estados Unidos com bolsa de 100% pra estudar e jogar futebol. Voltou formado em Ciência da Computação e fundou a NEXT em 2013, do zero, ao lado dos sócios Lucas e Danilo. <b>Hoje a NEXT está em mais de 100 cidades</b> e faz parte da UNBK, o grupo que já transformou mais de 10 mil vidas pelo esporte e pela educação. Não é papo de quem nunca fez. É de quem construiu tudo do zero.</p>
   <p class="reveal">Ele explica e responde ao vivo. Quem quiser entrar no negócio sai da apresentação sabendo o próximo passo.</p>
   <div class="note reveal">
     <div class="t">Sem letra miúda</div>
@@ -448,7 +472,7 @@ html[data-theme="light"] .formsec .thanks p{color:var(--muted)}
 <!-- BLOCO 9 · CHAMADA FINAL + FORMULÁRIO -->
 <section class="formsec" id="form" style="scroll-margin-top:24px"><div class="wrap">
   <div class="eyebrow">Garanta seu lugar</div>
-  <h2 class="h2">O <span class="u">Uber do futebol</span> já está rodando. Falta você atender.</h2>
+  <h2 class="h2">Pronto pra virar <span class="u">agente licenciado</span> da NEXT?</h2>
   <p class="sub">Leva 30 segundos. Deixa teu nome e WhatsApp e garante teu lugar na turma desta semana.</p>
 
   <form id="leadform" novalidate>
@@ -578,6 +602,25 @@ html[data-theme="light"] .formsec .thanks p{color:var(--muted)}
 </script>
 <script>
 (function(){var K='next-lic-theme',r=document.documentElement,b=document.getElementById('theme-toggle');if(b)b.addEventListener('click',function(){var n=r.getAttribute('data-theme')==='light'?'dark':'light';if(n==='light')r.setAttribute('data-theme','light');else r.removeAttribute('data-theme');try{localStorage.setItem(K,n);}catch(e){}});})();
+</script>
+<script>
+(function(){
+  var dd=document.getElementById('cd-d'),hh=document.getElementById('cd-h'),mm=document.getElementById('cd-m'),ss=document.getElementById('cd-s');
+  if(!dd)return;
+  /* alvo: próxima quinta-feira 19h de Brasília (= 22h UTC). Rola sozinho a cada semana. */
+  function alvo(){var n=new Date(),t=new Date(n);t.setUTCHours(22,0,0,0);t.setUTCDate(t.getUTCDate()+((4-t.getUTCDay()+7)%7));if(t<=n)t.setUTCDate(t.getUTCDate()+7);return t;}
+  function pad(x){return(x<10?'0':'')+x;}
+  var tg=alvo();
+  function tick(){
+    var rdy=tg-new Date();
+    if(rdy<=0){tg=alvo();rdy=tg-new Date();}
+    dd.textContent=pad(Math.floor(rdy/864e5));
+    hh.textContent=pad(Math.floor(rdy%864e5/36e5));
+    mm.textContent=pad(Math.floor(rdy%36e5/6e4));
+    ss.textContent=pad(Math.floor(rdy%6e4/1e3));
+  }
+  tick();setInterval(tick,1000);
+})();
 </script>
 </body>
 </html>
