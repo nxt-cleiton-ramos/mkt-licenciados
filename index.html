@@ -9,7 +9,7 @@
 <script>try{if(localStorage.getItem('next-lic-theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
   color-scheme:dark;
@@ -17,7 +17,7 @@
   --chalk:#fff;--muted:#b3b3b3;--faint:#6e6e6e;
   --orange:#F25A04;--orange-bright:#FF6A12;--orange-deep:#c4470a;
   --field:rgba(242,90,4,.32);  /* pitch-line orange */
-  --disp:'Barlow Condensed',sans-serif;--body:'Barlow',sans-serif;
+  --disp:'Montserrat',sans-serif;--body:'Montserrat',sans-serif;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;border-radius:0}
 html{scroll-behavior:smooth}
@@ -332,6 +332,17 @@ html[data-theme="light"] .band .bg{filter:contrast(1.02) brightness(1.02) satura
 .cd-cells>span{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;min-width:0;padding:8px 4px;background:var(--ink);border:1px solid var(--line);border-top:3px solid var(--orange)}
 .cd-cells b{font-family:var(--disp);font-weight:900;font-size:clamp(26px,3.4vw,34px);line-height:.9;color:var(--chalk);font-variant-numeric:tabular-nums}
 .cd-cells small{font-family:var(--body);font-weight:600;text-transform:uppercase;font-size:10px;letter-spacing:1px;color:var(--faint);margin-top:5px}
+
+/* ── FONTE DA MARCA · Montserrat (ajuste de métrica vs. Barlow Condensed) ── */
+h1,h2,h3{line-height:1.02;letter-spacing:-1.5px}
+.hero h1{font-size:clamp(38px,6.2vw,72px)}
+.h2{font-size:clamp(28px,4.2vw,46px)}
+.hero .sub{font-size:clamp(17px,2.2vw,21px)}
+.move .num{font-size:54px;line-height:1}
+.kickoff .ko-v{line-height:.98}
+.kickoff .ko-day{font-size:clamp(17px,2vw,22px)}
+.btn{font-size:21px;letter-spacing:.5px}
+.cta span,.sticky .txt,.eyebrow{letter-spacing:1.5px}
 </style>
 </head>
 <body>
