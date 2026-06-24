@@ -665,7 +665,7 @@ h1,h2,h3{line-height:1.02;letter-spacing:-1.5px}
   var dd=document.getElementById('cd-d'),hh=document.getElementById('cd-h'),mm=document.getElementById('cd-m'),ss=document.getElementById('cd-s');
   if(!dd)return;
   /* alvo: próxima quinta-feira 19h de Brasília (= 22h UTC). Rola sozinho a cada semana. */
-  function alvo(){var n=new Date(),t=new Date(n);t.setUTCHours(22,0,0,0);t.setUTCDate(t.getUTCDate()+((4-t.getUTCDay()+7)%7));if(t<=n)t.setUTCDate(t.getUTCDate()+7);return t;}
+  function alvo(){var n=new Date(),t=new Date(n);t.setUTCHours(22,0,0,0);t.setUTCDate(t.getUTCDate()+((4-t.getUTCDay()+7)%7));if(t<=n)t.setUTCDate(t.getUTCDate()+7);var p=new Date('2026-07-02T22:00:00Z');if(t<p)t=p;return t;}
   function pad(x){return(x<10?'0':'')+x;}
   var tg=alvo();
   function tick(){
