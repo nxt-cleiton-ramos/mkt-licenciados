@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Lançamento Licenciados</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #0a0a0a; color: #e0e0e0; min-height: 100vh; padding: 28px 16px; }
+
+    h1 { text-align: center; font-size: 1.35rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .sub { text-align: center; font-size: 0.72rem; color: #444; margin-bottom: 22px; }
+
+    .max { max-width: 880px; margin: 0 auto; }
+
+    /* Credenciais */
+    .creds-toggle { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #141414; border: 1px solid #222; border-radius: 8px; cursor: pointer; margin-bottom: 12px; font-size: 0.75rem; color: #666; }
+    .creds-toggle:hover { border-color: #333; color: #999; }
+    .creds-toggle span { font-weight: 600; }
+    .creds-badge { font-size: 0.6rem; padding: 2px 6px; border-radius: 3px; font-weight: 700; }
+    .creds-badge.ok { background: #152015; color: #5a9a5a; }
+    .creds-badge.no { background: #251515; color: #9a5a5a; }
+    .creds-body { background: #111; border: 1px solid #222; border-radius: 8px; padding: 14px; margin-bottom: 12px; display: none; gap: 10px; flex-direction: column; }
+    .creds-body.open { display: flex; }
+    .creds-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .creds-row label { font-size: 0.75rem; color: #888; width: 200px; flex-shrink: 0; }
+    .creds-row input { flex: 1; min-width: 200px; background: #1e1e1e; border: 1px solid #2e2e2e; border-radius: 4px; padding: 7px 10px; font-size: 0.8rem; color: #ccc; outline: none; font-family: monospace; }
+    .creds-row input:focus { border-color: #c8972a; }
+    .btn-save { padding: 7px 16px; background: #c8972a; border: none; border-radius: 4px; color: #000; font-weight: 700; font-size: 0.8rem; cursor: pointer; align-self: flex-end; }
+
+    /* Barra Meta */
+    .meta-bar { background: #141414; border: 1px solid #222; border-radius: 8px; padding: 11px 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+    .meta-bar label { font-size: 0.73rem; color: #666; flex-shrink: 0; }
+    .meta-bar input[type="date"] { background: #1e1e1e; border: 1px solid #2e2e2e; border-radius: 4px; padding: 6px 8px; font-size: 0.8rem; color: #ccc; outline: none; }
+    .meta-bar input[type="date"]:focus { border-color: #c8972a; }
+    .btn-fetch { padding: 7px 16px; background: #c8972a; border: none; border-radius: 4px; color: #000; font-weight: 700; font-size: 0.8rem; cursor: pointer; white-space: nowrap; }
+    .btn-fetch:disabled { opacity: 0.5; cursor: default; }
+    .btn-clear { padding: 7px 12px; background: transparent; border: 1px solid #333; border-radius: 4px; color: #666; font-weight: 600; font-size: 0.8rem; cursor: pointer; }
+    .meta-status { font-size: 0.72rem; }
+    .meta-status.ok { color: #5a9a5a; }
+    .meta-status.err { color: #c05a5a; }
+    .meta-status.loading { color: #888; }
+    .meta-extra { font-size: 0.7rem; color: #444; margin-left: auto; }
+
+    /* Grid */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; }
+    .full { grid-column: 1 / -1; }
+
+    /* Cards */
+    .card { background: #141414; border: 1px solid #222; border-radius: 8px; overflow: hidden; }
+    .card-gold { background: #141414; border: 1px solid #c8972a55; border-radius: 8px; overflow: hidden; }
+    .card-head { background: #1a1a1a; border-bottom: 1px solid #252525; padding: 9px 14px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #c8972a; }
+    .card-head-gold { background: #1a1500; border-bottom: 1px solid #252525; padding: 9px 14px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #e8b040; }
+
+    /* Rows */
+    .row { display: flex; align-items: center; justify-content: space-between; padding: 7px 14px; border-bottom: 1px solid #1c1c1c; gap: 8px; }
+    .row:last-child { border-bottom: none; }
+    .row label { font-size: 0.77rem; color: #888; flex: 1; display: flex; align-items: center; gap: 5px; }
+
+    input[type="number"] { width: 108px; flex-shrink: 0; background: #1e1e1e; border: 1px solid #2e2e2e; border-radius: 4px; padding: 5px 8px; font-size: 0.82rem; color: #fff; text-align: right; outline: none; }
+    input[type="number"]:focus { border-color: #c8972a55; }
+    input[type="number"].meta { background: #121f12; border-color: #2a402a; color: #7ec87e; }
+
+    .out { width: 108px; flex-shrink: 0; font-size: 0.87rem; font-weight: 700; color: #e8b040; text-align: right; }
+
+    .badge { font-size: 0.55rem; padding: 1px 4px; border-radius: 3px; background: #152015; color: #5a9a5a; font-weight: 700; letter-spacing: 0.04em; }
+
+    /* Resultado */
+    .res-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .res-cell { padding: 14px; border-right: 1px solid #1e1e1e; display: flex; flex-direction: column; gap: 5px; }
+    .res-cell:last-child { border-right: none; }
+    .res-lbl { font-size: 0.72rem; color: #666; }
+    .res-big { font-size: 1.1rem; font-weight: 700; color: #f0c040; }
+    .res-big.neg { color: #c05a5a; }
+    .res2 { border-top: 1px solid #1e1e1e; display: grid; grid-template-columns: 1fr 1fr; }
+    .res2 .res-cell { border-right: 1px solid #1e1e1e; }
+    .res2 .res-cell:last-child { border-right: none; }
+    .res2 .res-big { font-size: 1rem; color: #c8972a; }
+    .res-info { border-top: 1px solid #161616; padding: 7px 14px; font-size: 0.7rem; color: #444; display: flex; gap: 16px; flex-wrap: wrap; }
+
+    @media (max-width: 600px) {
+      .res-grid { grid-template-columns: repeat(2, 1fr); }
+      .res-cell:nth-child(2) { border-right: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="max">
+
+  <h1>Dashboard — Lançamento Licenciados</h1>
+  <p class="sub">Campos em verde são preenchidos automaticamente via Meta Ads API</p>
+
+  <!-- Credenciais -->
+  <div class="creds-toggle" onclick="toggleCreds()">
+    <span>Credenciais Meta Ads</span>
+    <span id="creds-status" class="creds-badge no">não configurado</span>
+  </div>
+  <div class="creds-body" id="creds-body">
+    <div class="creds-row">
+      <label>Access Token <small style="color:#555">(ads_read)</small></label>
+      <input type="password" id="inp-token" placeholder="EAAxxxxx..." autocomplete="off">
+    </div>
+    <div class="creds-row">
+      <label>Ad Account ID <small style="color:#555">(sem "act_")</small></label>
+      <input type="text" id="inp-account" placeholder="1234567890" autocomplete="off">
+    </div>
+    <button class="btn-save" onclick="saveCreds()">Salvar</button>
+  </div>
+
+  <!-- Barra Meta -->
+  <div class="meta-bar">
+    <label>Período:</label>
+    <input type="date" id="since">
+    <span style="font-size:0.73rem;color:#444">até</span>
+    <input type="date" id="until">
+    <button class="btn-fetch" id="btn-fetch" onclick="fetchMeta()">Buscar Meta</button>
+    <button class="btn-clear" id="btn-clear" onclick="clearMeta()" style="display:none">Limpar</button>
+    <span class="meta-status" id="meta-status"></span>
+    <span class="meta-extra" id="meta-extra"></span>
+  </div>
+
+  <!-- Grid -->
+  <div class="grid">
+
+    <!-- TRÁFEGO -->
+    <div class="card">
+      <div class="card-head">Tráfego</div>
+
+      <div class="row">
+        <label>Ticket Produto (R$)</label>
+        <input type="number" id="ticket" value="197" min="0" step="0.01" oninput="calc()">
+      </div>
+      <div class="row">
+        <label>Investimento (R$) <span class="badge" id="b-investimento" style="display:none">META</span></label>
+        <input type="number" id="investimento" value="1000" min="0" step="0.01" oninput="calc()">
+      </div>
+      <div class="row">
+        <label>% Captação</label>
+        <input type="number" id="pct-captacao" value="100" min="0" max="100" step="1" oninput="calc()">
+      </div>
+      <div class="row">
+        <label>Captação</label>
+        <span class="out" id="out-captacao">—</span>
+      </div>
+      <div class="row">
+        <label>CPM (R$) <span class="badge" id="b-cpm" style="display:none">META</span></label>
+        <input type="number" id="cpm" value="15" min="0" step="0.01" oninput="calc()">
+      </div>
+      <div class="row">
+        <label>Qtd Cliques <span class="badge" id="b-cliques" style="display:none">META</span></label>
+        <input type="number" id="cliques" value="5500" min="0" step="1" oninput="calc()">
+      </div>
+      <div class="row">
+        <label>CTR (%) <span class="badge" id="b-ctr" style="display:none">META</span></label>
+        <input type="number" id="ctr" value="0.95" min="0" step="0.01" oninput="calc()">
+      </div>
+      <div class="row">
+        <label>CPC</label>
+        <span class="out" id="out-cpc">—</span>
+      </div>
+    </div>
+
+    <!-- LANDPAGE / WHATSAPP -->
+    <div class="card">
+      <div class="card-head">Landpage / WhatsApp</div>
+
+      <div class="row">
+        <label>Conect Rate (%)</label>
+        <input type="number" id="conect" value="80" min="0" max="100" step="0.1" oninput="calc()">
+      </div>
+      <div class="row">
+        <label>Conversão Pag (%)</label>
+        <input type="number" id="conv-pag" value="70" min="0" max="100" step="0.1" oninput="calc()">
+      </div>
+      <div class="row">
+        <label>CPL por Lead</label>
+        <span class="out" id="out-cpl">—</span>
+      </div>
+      <div class="row">
+        <label>N. Leads</label>
+        <span class="out" id="out-leads">—</span>
+      </div>
+      <div class="row">
+        <label>% Entrada Comunidade</label>
+        <input type="number" id="pct-comunidade" value="40" min="0" max="100" step="1" oninput="calc()">
+      </div>
+      <div class="row">
+        <label>N. Leads WhatsApp</label>
+        <span class="out" id="out-leads-wa">—</span>
+      </div>
+      <div class="row">
+        <label>CPL WhatsApp</label>
+        <span class="out" id="out-cpl-wa">—</span>
+      </div>
+    </div>
+
+    <!-- AULA -->
+    <div class="card">
+      <div class="card-head">Aula</div>
+
+      <div class="row">
+        <label>PICO % da Aula</label>
+        <input type="number" id="pico-pct" value="25" min="0" max="100" step="1" oninput="calc()">
+      </div>
+      <div class="row">
+        <label>Pico Numérico</label>
+        <span class="out" id="out-pico">—</span>
+      </div>
+      <div class="row">
+        <label>% Ideal Pitch</label>
+        <input type="number" id="pitch-pct" value="70" min="0" max="100" step="1" oninput="calc()">
+      </div>
+      <div class="row">
+        <label>N. Pitch</label>
+        <span class="out" id="out-pitch">—</span>
+      </div>
+    </div>
+
+    <!-- GRUPO VIP -->
+    <div class="card">
+      <div class="card-head">Grupo VIP / Fechamento</div>
+
+      <div class="row">
+        <label>N. Ideal Leads</label>
+        <input type="number" id="n-ideal" value="150" min="0" step="1" oninput="calc()">
+      </div>
+      <div class="row">
+        <label>% Ideal Conversão</label>
+        <input type="number" id="conv-ideal" value="20.5" min="0" max="100" step="0.1" oninput="calc()">
+      </div>
+      <div class="row">
+        <label>% Ideal Leads (no Pitch)</label>
+        <span class="out" id="out-pct-pitch">—</span>
+      </div>
+      <div class="row">
+        <label>N. Ideal Vendas</label>
+        <span class="out" id="out-vendas">—</span>
+      </div>
+    </div>
+
+    <!-- RESULTADO FINAL -->
+    <div class="card-gold full">
+      <div class="card-head-gold">Resultado Final</div>
+      <div class="res-grid">
+        <div class="res-cell">
+          <span class="res-lbl">Faturamento</span>
+          <span class="res-big" id="res-fat">—</span>
+        </div>
+        <div class="res-cell">
+          <span class="res-lbl">Resultado (Lucro)</span>
+          <span class="res-big" id="res-luc">—</span>
+        </div>
+        <div class="res-cell">
+          <span class="res-lbl">ROAS</span>
+          <span class="res-big" id="res-roas">—</span>
+        </div>
+        <div class="res-cell">
+          <span class="res-lbl">Conversão Geral</span>
+          <span class="res-big" id="res-conv">—</span>
+        </div>
+      </div>
+      <div class="res2">
+        <div class="res-cell">
+          <span class="res-lbl">N. Licenciados</span>
+          <span class="res-big" id="res-lic">—</span>
+        </div>
+        <div class="res-cell">
+          <span class="res-lbl">CAC por Licenciado</span>
+          <span class="res-big" id="res-cac">—</span>
+        </div>
+      </div>
+      <div class="res-info" id="res-info" style="display:none">
+        <span id="info-imp"></span>
+        <span id="info-reach"></span>
+        <span id="info-freq"></span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = 'lic_admin_v1'
+  const CREDS_KEY   = 'lic_creds_v1'
+
+  // ── Credenciais ─────────────────────────────────────────
+
+  let metaToken   = ''
+  let metaAccount = ''
+
+  function loadCreds() {
+    try {
+      const c = JSON.parse(localStorage.getItem(CREDS_KEY) || '{}')
+      metaToken   = c.token   || ''
+      metaAccount = c.account || ''
+    } catch {}
+    updateCredsStatus()
+  }
+
+  function saveCreds() {
+    metaToken   = document.getElementById('inp-token').value.trim()
+    metaAccount = document.getElementById('inp-account').value.trim().replace(/^act_/, '')
+    localStorage.setItem(CREDS_KEY, JSON.stringify({ token: metaToken, account: metaAccount }))
+    updateCredsStatus()
+    document.getElementById('creds-body').classList.remove('open')
+  }
+
+  function updateCredsStatus() {
+    const el = document.getElementById('creds-status')
+    if (metaToken && metaAccount) {
+      el.textContent = 'configurado'
+      el.className = 'creds-badge ok'
+    } else {
+      el.textContent = 'não configurado'
+      el.className = 'creds-badge no'
+    }
+    if (document.getElementById('inp-token').value === '') {
+      document.getElementById('inp-token').value = metaToken ? '••••••••' : ''
+    }
+    document.getElementById('inp-account').value = metaAccount
+  }
+
+  function toggleCreds() {
+    const body = document.getElementById('creds-body')
+    body.classList.toggle('open')
+    if (body.classList.contains('open') && metaToken) {
+      document.getElementById('inp-token').value = ''
+      document.getElementById('inp-token').placeholder = 'Cole o token para atualizar'
+    }
+  }
+
+  // ── Datas padrão ─────────────────────────────────────────
+
+  function defaultDates() {
+    const today = new Date()
+    const since = new Date(today)
+    since.setDate(since.getDate() - 6)
+    document.getElementById('since').value = since.toISOString().split('T')[0]
+    document.getElementById('until').value = today.toISOString().split('T')[0]
+  }
+
+  // ── Persistência dos inputs ───────────────────────────────
+
+  const INPUTS = ['ticket','investimento','pct-captacao','cpm','cliques','ctr',
+                  'conect','conv-pag','pct-comunidade','pico-pct','pitch-pct','n-ideal','conv-ideal']
+
+  function saveInputs() {
+    const data = {}
+    INPUTS.forEach(id => { data[id] = document.getElementById(id).value })
+    data.since = document.getElementById('since').value
+    data.until = document.getElementById('until').value
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+  }
+
+  function loadInputs() {
+    try {
+      const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')
+      INPUTS.forEach(id => { if (data[id] !== undefined) document.getElementById(id).value = data[id] })
+      if (data.since) document.getElementById('since').value = data.since
+      if (data.until) document.getElementById('until').value = data.until
+    } catch {}
+  }
+
+  INPUTS.forEach(id => document.getElementById(id).addEventListener('input', saveInputs))
+  document.getElementById('since').addEventListener('change', saveInputs)
+  document.getElementById('until').addEventListener('change', saveInputs)
+
+  // ── Meta API ─────────────────────────────────────────────
+
+  let metaLoaded = false
+
+  async function fetchMeta() {
+    if (!metaToken || !metaAccount) {
+      alert('Configure as credenciais da Meta antes de buscar.')
+      document.getElementById('creds-body').classList.add('open')
+      return
+    }
+    const since = document.getElementById('since').value
+    const until = document.getElementById('until').value
+    if (!since || !until) { alert('Selecione o período.'); return }
+
+    setStatus('loading', 'Consultando API...')
+    document.getElementById('btn-fetch').disabled = true
+
+    const fields  = 'spend,impressions,clicks,cpm,ctr,cpc,reach'
+    const range   = JSON.stringify({ since, until })
+    const url = `https://graph.facebook.com/v21.0/act_${metaAccount}/insights?level=account&fields=${fields}&time_range=${encodeURIComponent(range)}&access_token=${encodeURIComponent(metaToken)}`
+
+    try {
+      const res  = await fetch(url)
+      const json = await res.json()
+
+      if (json.error) throw new Error(json.error.message)
+
+      const row = (json.data || [])[0] || {}
+      const spend       = parseFloat(row.spend       || 0)
+      const impressions = parseInt(row.impressions   || 0)
+      const clicks      = parseInt(row.clicks        || 0)
+      const cpm         = parseFloat(row.cpm         || 0)
+      const ctr         = parseFloat(row.ctr         || 0)
+      const reach       = parseInt(row.reach         || 0)
+
+      setField('investimento', spend,   true)
+      setField('cliques',      clicks,  true)
+      setField('cpm',          cpm,     true)
+      setField('ctr',          ctr,     true)
+
+      metaLoaded = true
+      document.getElementById('btn-clear').style.display = ''
+
+      const freq = reach > 0 ? (impressions / reach).toFixed(1) : '—'
+      setStatus('ok', `✓ Meta · ${impressions.toLocaleString('pt-BR')} impressões · alcance ${reach.toLocaleString('pt-BR')}`)
+
+      const info = document.getElementById('res-info')
+      info.style.display = 'flex'
+      document.getElementById('info-imp').textContent   = `Impressões: ${impressions.toLocaleString('pt-BR')}`
+      document.getElementById('info-reach').textContent = `Alcance: ${reach.toLocaleString('pt-BR')}`
+      document.getElementById('info-freq').textContent  = `Freq. média: ${freq}x`
+
+      calc()
+    } catch (e) {
+      setStatus('err', '✗ ' + e.message)
+    } finally {
+      document.getElementById('btn-fetch').disabled = false
+    }
+  }
+
+  function setField(id, val, fromMeta) {
+    const el = document.getElementById(id)
+    el.value = parseFloat(val.toFixed(4))
+    el.classList.toggle('meta', !!fromMeta)
+    const badge = document.getElementById('b-' + id)
+    if (badge) badge.style.display = fromMeta ? '' : 'none'
+  }
+
+  function clearMeta() {
+    ['investimento','cliques','cpm','ctr'].forEach(id => {
+      document.getElementById(id).classList.remove('meta')
+      const b = document.getElementById('b-' + id)
+      if (b) b.style.display = 'none'
+    })
+    metaLoaded = false
+    document.getElementById('btn-clear').style.display = 'none'
+    document.getElementById('res-info').style.display = 'none'
+    setStatus('', '')
+  }
+
+  function setStatus(type, msg) {
+    const el = document.getElementById('meta-status')
+    el.textContent = msg
+    el.className = 'meta-status ' + type
+  }
+
+  // ── Cálculos ─────────────────────────────────────────────
+
+  function v(id) { return parseFloat(document.getElementById(id).value) || 0 }
+
+  function fmt(n, dec = 2) {
+    if (!isFinite(n) || isNaN(n)) return '—'
+    return n.toLocaleString('pt-BR', { minimumFractionDigits: dec, maximumFractionDigits: dec })
+  }
+  function brl(n)  { return isFinite(n) && n >= 0 ? 'R$ ' + fmt(n) : '—' }
+  function pct(n)  { return isFinite(n) ? fmt(n * 100, 1) + '%' : '—' }
+  function intl(n) { return isFinite(n) ? Math.round(n).toLocaleString('pt-BR') : '—' }
+
+  function set(id, val) { document.getElementById(id).textContent = val }
+
+  function calc() {
+    const ticket    = v('ticket')
+    const invest    = v('investimento')
+    const pctCap    = v('pct-captacao') / 100
+    const cpm       = v('cpm')
+    const cliques   = v('cliques')
+    const ctr       = v('ctr') / 100        // decimal
+    const conect    = v('conect') / 100
+    const convPag   = v('conv-pag') / 100
+    const pctCom    = v('pct-comunidade') / 100
+    const picoPct   = v('pico-pct') / 100
+    const pitchPct  = v('pitch-pct') / 100
+    const nIdeal    = v('n-ideal')
+    const convIdeal = v('conv-ideal') / 100
+
+    const captacao    = invest * pctCap
+    const cpc         = ctr > 0 ? (cpm / 10) / (ctr * 100) : 0
+    const nLeads      = cliques * conect * convPag
+    const cpl         = nLeads > 0 ? captacao / nLeads : 0
+    const nLeadsWA    = nLeads * pctCom
+    const cplWA       = nLeadsWA > 0 ? captacao / nLeadsWA : 0
+    const picoNum     = nLeadsWA * picoPct
+    const nPitch      = picoNum * pitchPct
+    const pctPitch    = nIdeal > 0 ? nPitch / nIdeal : 0
+    const nVendas     = nIdeal * convIdeal
+    const faturamento = nVendas * ticket
+    const resultado   = faturamento - invest
+    const roas        = invest > 0 ? faturamento / invest : 0
+    const convGeral   = nLeads > 0 ? nVendas / nLeads : 0
+    const cac         = nVendas > 0 ? invest / nVendas : 0
+
+    set('out-captacao',  brl(captacao))
+    set('out-cpc',       brl(cpc))
+    set('out-cpl',       brl(cpl))
+    set('out-leads',     intl(nLeads))
+    set('out-leads-wa',  intl(nLeadsWA))
+    set('out-cpl-wa',    brl(cplWA))
+    set('out-pico',      intl(picoNum))
+    set('out-pitch',     intl(nPitch))
+    set('out-pct-pitch', pct(pctPitch))
+    set('out-vendas',    intl(nVendas))
+
+    set('res-fat',  brl(faturamento))
+    set('res-roas', fmt(roas, 2) + 'x')
+    set('res-conv', pct(convGeral))
+    set('res-lic',  nVendas > 0 ? Math.round(nVendas).toString() : '-')
+    set('res-cac',  brl(cac))
+
+    const lucEl = document.getElementById('res-luc')
+    lucEl.textContent = resultado >= 0 ? brl(resultado) : '-' + brl(Math.abs(resultado))
+    lucEl.className = 'res-big' + (resultado < 0 ? ' neg' : '')
+
+    saveInputs()
+  }
+
+  // ── Init ─────────────────────────────────────────────────
+
+  defaultDates()
+  loadInputs()
+  loadCreds()
+  calc()
+</script>
+</body>
+</html>
